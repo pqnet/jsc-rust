@@ -1,3 +1,4 @@
+use super::JSValue;
 use jsc_bindgen as jsc;
 use jsc_bindgen::{JSContextGroupRef, JSGlobalContextRef};
 use std::ptr;
@@ -5,11 +6,24 @@ use std::ptr;
 pub struct JSContextGroup {
   ptr: JSContextGroupRef,
 }
+
 impl JSContextGroup {
   pub fn new() -> JSContextGroup {
-    JSContextGroup { ptr: ptr::null() }
+    JSContextGroup {
+      ptr: unsafe { jsc::JSContextGroupCreate() },
+    }
+  }
+  pub fn raw(&self) -> JSContextGroupRef {
+    self.ptr
   }
 }
+
+impl Default for JSContextGroup {
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
 impl Drop for JSContextGroup {
   fn drop(&mut self) {
     unsafe { jsc::JSContextGroupRelease(self.ptr) }
@@ -44,6 +58,12 @@ impl JSGlobalContext {
     JSContextGroup {
       ptr: unsafe { jsc::JSContextGetGroup(self.ptr) },
     }
+  }
+  pub fn raw(&self) -> JSGlobalContextRef {
+    self.ptr
+  }
+  pub fn global_object(&self) -> JSValue {
+    unsafe { JSValue::from_raw(self.clone(), jsc::JSContextGetGlobalObject(self.ptr)) }
   }
 }
 impl Drop for JSGlobalContext {
