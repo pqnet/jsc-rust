@@ -1,0 +1,2 @@
+[workspace]
+members = [ "jsc_bindgen" ]
