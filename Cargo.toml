@@ -1,2 +1,2 @@
 [workspace]
-members = [ "jsc_bindgen" ]
+members = [ "jsc", "jsc_bindgen" ]

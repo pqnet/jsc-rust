@@ -1,0 +1,10 @@
+[package]
+name = "jsc"
+version = "0.1.0"
+authors = ["Leonardo Bartoloni <leonardo@biobeats.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+jsc_bindgen = { path = "../jsc_bindgen"}
