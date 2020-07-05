@@ -62,8 +62,18 @@ impl JSGlobalContext {
   pub fn raw(&self) -> JSGlobalContextRef {
     self.ptr
   }
+
   pub fn global_object(&self) -> JSValue {
     unsafe { JSValue::from_raw(self.clone(), jsc::JSContextGetGlobalObject(self.ptr)) }
+  }
+  pub fn new_undefined(&self) -> JSValue {
+    unsafe { JSValue::from_raw(self.clone(), jsc::JSValueMakeUndefined(self.ptr)) }
+  }
+  pub fn new_null(&self) -> JSValue {
+    unsafe { JSValue::from_raw(self.clone(), jsc::JSValueMakeNull(self.ptr)) }
+  }
+  pub fn new_boolean(&self, value: bool) -> JSValue {
+    unsafe { JSValue::from_raw(self.clone(), jsc::JSValueMakeBoolean(self.ptr, value)) }
   }
 }
 impl Drop for JSGlobalContext {
